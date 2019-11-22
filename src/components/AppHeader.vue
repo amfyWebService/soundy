@@ -8,7 +8,7 @@
     <v-toolbar-title>Soundy</v-toolbar-title>
     <v-spacer></v-spacer>
     <div class="text-center">
-      <v-btn  class="ma-2" rounded color="purple">Login</v-btn>
+      <v-btn :to="{name: 'login'}" class="ma-2" rounded color="purple">Login</v-btn>
       <v-btn :to="{name: 'register'}" class="ma-2" rounded color="purple">Register</v-btn>
     </div>
     </v-app-bar>
