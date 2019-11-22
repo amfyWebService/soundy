@@ -9,5 +9,6 @@ module.exports = {
       localeDir: 'locales', // The directory where store localization messages of project
       enableInSFC: true // Enable locale messages in Single file components
     }
-  }
+  },
+  lintOnSave: true
 }
