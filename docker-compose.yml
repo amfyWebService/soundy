@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    env_file: mongo.env
+    ports:
+     - "27017:27017"
+  front:
+    image: soundy:soundy
+    restart: always
+    network_mode: "bridge"
+    env_file: front.env
+  gateway:
+    image: soundy:soundy_rest
+    restart: always
+    network_mode: "bridge"
+    ports:
+     - "8282:8080"
+  services:
+    image: soundy:soundy_service
+    restart: always
+    network_mode: "bridge"
+    ports:
+     - "8181:8080"
+    env_file: service.env
