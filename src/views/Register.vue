@@ -49,6 +49,9 @@ import {required, minLength, isEmail} from "@/utils/FormRules";
 
 @Component
 export default class Register extends Vue {
+  get form(): Vue & { validate: () => boolean } {
+    return this.$refs.form as Vue & { validate: () => boolean }
+  }
   password = null;
   firstname = null;
   lastname = null;
@@ -61,7 +64,9 @@ export default class Register extends Vue {
   passwordRules = [required(), minLength(8)];
   valid: boolean = false;
   submit(){
-    this.$refs.form.validate();
+    console.log(this.email)
+    this.form;
+    console.log(this.email)
      if(this.valid){
         console.log("is valid")
      }

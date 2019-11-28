@@ -24,18 +24,26 @@
 </template>
 
 <script lang="ts">
+
 import { Component, Vue } from "vue-property-decorator";
-import {required, minLength, isEmail} from "@/utils/FormRules";
+import {required, minLength, isEmail,} from "@/utils/FormRules";
+
 
 @Component
 export default class Register extends Vue {
+  get form(): Vue & { validate: () => boolean } {
+    return this.$refs.form as Vue & { validate: () => boolean }
+  }
+// Use
+
   email = null;
   password = null;
   emailRules = [required(), isEmail()];
   passwordRules = [required(), minLength(8)];
   valid: boolean = false;
   submit(){
-    this.$refs.form.validate();
+    
+    this.form;
      if(this.valid){
         console.log("is valid")
      }
