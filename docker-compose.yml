@@ -2,25 +2,34 @@ version: "3.7"
 services:
   mongo:
     image: mongo:latest
+    # container_name: mongo
     restart: always
-    env_file: mongo.env
     ports:
-     - "27017:27017"
+      - "27017:27017"
+    # env_file: mongo.env
   front:
-    image: soundy:soundy
+    build: .
+    # container_name: front
     restart: always
     network_mode: "bridge"
-    env_file: front.env
+    environment: 
+      - GATEWAY_URL=http://gateway:8080
   gateway:
-    image: soundy:soundy_rest
+    build: ../soundy_rest
+    # container_name: gateway
     restart: always
     network_mode: "bridge"
     ports:
-     - "8282:8080"
-  services:
-    image: soundy:soundy_service
+      - "8080:8080"
+    env_file: gateway.env
+  service:
+    build: ../soundy_service
+    # container_name: service
     restart: always
-    network_mode: "bridge"
+    links: 
+      - mongo
+    depends_on: 
+      - mongo
     ports:
-     - "8181:8080"
+      - "8181:8080"
     env_file: service.env
