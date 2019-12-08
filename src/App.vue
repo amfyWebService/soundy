@@ -4,18 +4,30 @@
     <v-content>
       <router-view></router-view>
     </v-content>
-    <app-footer></app-footer>
+    <app-footer>
+      <music-list v-if="isSignedIn" :playlist="playlist" ref="musicPlayer"></music-list>
+    </app-footer>
   </v-app>
 </template>
 <script lang="ts">
 import { Vue, Component} from 'vue-property-decorator'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import MusicList from "@/components/music/MusicList.vue";
+import { Getter } from 'vuex-class';
 
 @Component({
-  components: { AppHeader, AppFooter}
+  components: { AppHeader, AppFooter, MusicList}
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Getter('playlist') playlist: any;
+  @Getter('isSignedIn')isSignedIn : boolean;
+
+
+  mounted(){
+    console.log(this.playlist);
+  }
+}
 
 </script>
 
@@ -27,6 +39,7 @@ export default class App extends Vue {}
   text-align: center;
   color: #2c3e50;
 }
+
 
 // #nav {
 //   padding: 30px;

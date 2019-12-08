@@ -7,19 +7,29 @@
       </v-col>
     </v-row>
   </v-parallax>
+  <!-- <music-list class="music"></music-list> -->
   
 </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import MusicList from '@/components/music/MusicList.vue';
 
-@Component
+@Component({
+  components: {MusicList}
+})
 export default class Home extends Vue {
   toto: String = "toto";
+
 }
 </script>
 <style scoped lang="scss">
+.music{
+    position: fixed;
+    bottom: 80px;
+    width: 100%;
+}
 .home{
   height: 100%;
   .custom-divider {

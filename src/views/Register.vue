@@ -46,30 +46,50 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import {required, minLength, isEmail} from "@/utils/FormRules";
+import { Action, Getter } from "vuex-class";
+const namespace = "global";
+export interface User {
+    id?: string;
+    mail?: string;
+    firstname?: string;
+    lastname?: string;
+    password?: string;
+    description?: string;
+    birthday?: string;
+    uid?: string;
+    userStatus?: string;
+}
 
-@Component
+@Component({})
 export default class Register extends Vue {
+  @Action("register") register!: any;
+
   get form(): Vue & { validate: () => boolean } {
     return this.$refs.form as Vue & { validate: () => boolean }
   }
-  password = null;
-  firstname = null;
-  lastname = null;
-  email = null;
-  birthday = null;
+  password = "";
+  firstname = "";
+  lastname = "";
+  email = "";
+  birthday = "";
   birthdayRules = [required()];
   firstnameRules  = [required()];
   lastnameRules = [required()];
   emailRules = [required(), isEmail()];
   passwordRules = [required(), minLength(8)];
   valid: boolean = false;
+  user:User = {}
   submit(){
-    console.log(this.email)
     this.form;
-    console.log(this.email)
-     if(this.valid){
-        console.log("is valid")
-     }
+    if(this.valid){
+      this.user.mail = this.email;
+      this.user.password = this.password;
+      this.user.birthday = this.birthday;
+      this.user.firstname = this.firstname;
+      this.user.lastname = this.lastname;
+      console.log(this.user)
+      this.register(this.user);
+    }
   }
   // clear(){
   //   this.$refs.form.reset();
