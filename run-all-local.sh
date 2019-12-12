@@ -4,4 +4,5 @@ git pull
 cd ../soundy_service/
 git pull
 cd ../soundy
-docker-compose up --force-recreate
+
+docker-compose up --build $1
