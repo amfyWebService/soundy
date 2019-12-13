@@ -10,5 +10,9 @@ module.exports = {
       enableInSFC: true // Enable locale messages in Single file components
     }
   },
-  lintOnSave: true
+  lintOnSave: true,
+  devServer: {
+    proxy: 'http://localhost:8080/',
+    port: 8085,
+  }
 }

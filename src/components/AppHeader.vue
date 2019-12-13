@@ -4,7 +4,6 @@
       color="#191919"
       dark
       app>
-    <v-app-bar-nav-icon></v-app-bar-nav-icon>
     <v-toolbar-title>Soundy</v-toolbar-title>
     <v-spacer></v-spacer>
     <div class="text-center" v-if="!isSignedIn">
@@ -12,7 +11,7 @@
       <v-btn :to="{name: 'register'}" class="ma-2" rounded color="purple">Register</v-btn>
     </div > 
     <div class="text-center" v-if="isSignedIn" >
-      <span>Bonjour {{user.lastName}}</span>
+      <span>Hello {{user.firstname}}</span>
       <v-btn @click="logout" class="ma-2" rounded color="purple">Logout</v-btn>
     </div>
     </v-app-bar>

@@ -5,7 +5,7 @@
       <router-view></router-view>
     </v-content>
     <app-footer>
-      <music-list v-if="isSignedIn" :playlist="playlist" ref="musicPlayer"></music-list>
+      <music-player v-if="isSignedIn" :playlist="playlist" ref="musicPlayer"></music-player>
     </app-footer>
   </v-app>
 </template>
@@ -13,11 +13,11 @@
 import { Vue, Component} from 'vue-property-decorator'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
-import MusicList from "@/components/music/MusicList.vue";
+import MusicPlayer from "@/components/music/MusicPlayer.vue";
 import { Getter } from 'vuex-class';
 
 @Component({
-  components: { AppHeader, AppFooter, MusicList}
+  components: { AppHeader, AppFooter, MusicPlayer}
 })
 export default class App extends Vue {
   @Getter('playlist') playlist: any;

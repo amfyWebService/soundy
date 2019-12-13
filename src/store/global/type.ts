@@ -16,5 +16,5 @@ export interface AuthState {
     user?: User;
     status: boolean;
     token?: string;
-    playlist: string[] // temporary, after define a model Playlist
+    playlist: object[]// temporary, after define a model Playlist
 }
