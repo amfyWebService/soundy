@@ -10,36 +10,30 @@
   </v-app>
 </template>
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator'
-import AppHeader from '@/components/AppHeader.vue'
-import AppFooter from '@/components/AppFooter.vue'
+import { Vue, Component } from "vue-property-decorator";
+import AppHeader from "@/components/AppHeader.vue";
+import AppFooter from "@/components/AppFooter.vue";
 import MusicPlayer from "@/components/music/MusicPlayer.vue";
-import { Getter } from 'vuex-class';
+import { Getter } from "vuex-class";
+import MusicList from './core/models/MusicList';
 
 @Component({
-  components: { AppHeader, AppFooter, MusicPlayer}
+  components: { AppHeader, AppFooter, MusicPlayer }
 })
 export default class App extends Vue {
-  @Getter('playlist') playlist: any;
-  @Getter('isSignedIn')isSignedIn : boolean;
-
-
-  mounted(){
-    console.log(this.playlist);
-  }
+  @Getter("playlist") playlist: MusicList;
+  @Getter("isSignedIn") isSignedIn: boolean;
 }
-
 </script>
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
-
 
 // #nav {
 //   padding: 30px;
