@@ -22,7 +22,6 @@ import { Getter } from 'vuex-class';
   components: {PlayList}
 })
 export default class Home extends Vue {
-  toto: String = "toto";
   @Getter('isSignedIn')isSignedIn : boolean;
   @Getter('playlist') playlist: any;
 

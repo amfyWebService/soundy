@@ -35,8 +35,8 @@
         <v-btn @click="nextMusic" fab :disabled="!canNextMusic">
           <v-icon class="fas fa-step-forward"></v-icon>
         </v-btn>
-        <v-btn @click="showPlaylist = !showPlaylist" fab>
-          <v-icon class="fas fa-step-forward"></v-icon>
+        <v-btn @click="showPlaylist = !showPlaylist" fab small>
+          <v-icon class="fas fa-list"></v-icon>
         </v-btn>
       </div>
 
