@@ -48,7 +48,7 @@ export default class Register extends Vue {
     if (this.valid) {
       try {
         await this.login({ username: this.email, password: this.password });
-        this.$router.push({name: 'home'});
+        this.$router.push("/");
       } catch (err) {
         switch (err.response.status) {
           case 400:

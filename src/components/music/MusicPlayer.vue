@@ -3,7 +3,7 @@
     <div style="display:none">
       <audio
         id="player"
-        :src="currentMusic.url"
+        :src="currentTrackSrc"
         preload="auto"
         ref="audio"
         @playing="_onAudioPlay"
@@ -56,7 +56,7 @@
     </div>
 
     <v-dialog v-model="showPlaylist">
-      <playlist :playlist="playlist"></playlist>
+      <playlist :playlist="playlist" :current-track="currentTrack"></playlist>
     </v-dialog>
   </div>
 </template>
@@ -64,12 +64,15 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import Playlist from "@/components/music/PlayList.vue";
+import MusicList from '../../core/models/MusicList';
+import Track from '../../core/models/Track';
+import axios from '../../plugins/axios';
 
 @Component({
   components: { Playlist }
 })
 export default class MusicPlayer extends Vue {
-  @Prop() playlist: Object[];
+  @Prop() playlist: MusicList;
   playlistIndex: number = 0;
   audio: HTMLMediaElement;
   isPlaying = false;
@@ -126,7 +129,7 @@ export default class MusicPlayer extends Vue {
     }
   }
 
-  get canPreviousMusic() {
+  get canPreviousMusic(): boolean {
     return this.playlistIndex > 0;
   }
 
@@ -136,19 +139,27 @@ export default class MusicPlayer extends Vue {
     }
   }
 
-  get canNextMusic() {
-    return this.playlistIndex < this.playlist.length - 1;
+  get canNextMusic(): boolean {
+    return this.playlistIndex < this.playlist.tracks.length - 1;
   }
 
-  get currentMusic() {
-    return this.playlist[this.playlistIndex];
+  get currentTrack(): Track | undefined {
+    return this.playlist.tracks[this.playlistIndex];
+  }
+
+  get currentTrackSrc(): string {
+    if(this.currentTrack){
+      return axios.defaults.url + "/stream/" + this.currentTrack._id;
+    }
+
+    return "";
   }
 
   @Watch("playlistIndex")
   onPlaylistIndexChange(val: number) {
     this.audio.pause();
 
-    if (this.playlist[val]) {
+    if (this.playlist.tracks[val]) {
       this.$nextTick(() => {
         this.audio.play();
       });
@@ -161,7 +172,7 @@ export default class MusicPlayer extends Vue {
   }
 
   onClickMusicPlaylist(track: any){
-      let index = this.playlist.indexOf(track);
+      let index = this.playlist.tracks.indexOf(track);
       if(index > -1){
           if(this.playlistIndex === index)
             this.onPlaylistIndexChange(index);
