@@ -1,18 +1,18 @@
 import axios from '@/plugins/axios';
 import { Module } from 'vuex';
 import { RootState } from '../types';
-import { AuthState} from './type';
+import { SoundyState} from './type';
 import User from '@/core/models/User';
 import MusicList from '@/core/models/MusicList';
 
-export const state: AuthState = {
+export const state: SoundyState = {
     token: localStorage.getItem('token') || undefined,
     user: JSON.parse(localStorage.getItem('user') || 'null') || undefined ,
     status: false,
     playlist: {tracks: []},
 };
 
-const global: Module<AuthState,RootState> = {
+const global: Module<SoundyState,RootState> = {
     namespaced: false,
     state: state,
     getters: {

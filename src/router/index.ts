@@ -5,6 +5,8 @@ import Register from '@/views/Register.vue'
 import Login from '@/views/Login.vue'
 import AppAuth from "@/views/AppAuth.vue";
 import PlaylistPage from "@/views/PlaylistPage.vue";
+import PlaylistsByUserPage from "@/views/PlaylistsByUserPage.vue";
+import CurrentPlaylistPage from "@/views/CurrentPlaylistPage.vue";
 import store from '@/store'
 
 const isAuthenticated: NavigationGuard = function(to, from, next){
@@ -65,7 +67,6 @@ const routes: RouteConfig[] = [
   // },
   {
     path: "",
-    name: "auth",
     component: AppAuth,
     beforeEnter: isAuthenticated,
     children: [
@@ -75,27 +76,27 @@ const routes: RouteConfig[] = [
         redirect: "/home"
       },
       {
-        path: "/playlists/user/:id",
-        name: "playlists-user"
-
+        path: "/playlists/user/me",
+        alias: "/home",
+        name: "playlists_current_user",
+        component: PlaylistsByUserPage,
       },
       {
-        path: "/playlist",
-        alias: "/home",
+        path: "/playlists/user/:userId",
+        name: "playlists_by_user",
+        component: PlaylistsByUserPage,
+        props: true
+      },
+      {
+        path: "/playlist/:playlistId",
         name: "playlist",
         component: PlaylistPage,
-        // children: [
-        //   {
-        //     path: "",
-        //     name: "current_playlist",
-        //     component: CurrentPlaylistPage,
-        //   },
-        //   {
-        //     path: "/user/:id",
-        //     name: "playlist_by_user",
-        //     component: PlaylistByUserPage,
-        //   },
-        // ]
+        props: true
+      },
+      {
+        path: "/playlist/current",
+        name: "current_playlist",
+        component: CurrentPlaylistPage,
       },
       {
         path: "*",

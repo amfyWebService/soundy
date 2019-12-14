@@ -35,7 +35,7 @@
         <v-btn @click="nextMusic" fab :disabled="!canNextMusic">
           <v-icon class="fas fa-step-forward"></v-icon>
         </v-btn>
-        <v-btn @click="showPlaylist = !showPlaylist" fab small>
+        <v-btn class="ml-5" @click="showPlaylist = !showPlaylist" fab small>
           <v-icon class="fas fa-list"></v-icon>
         </v-btn>
       </div>
@@ -64,9 +64,9 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import Playlist from "@/components/music/PlayList.vue";
-import MusicList from '../../core/models/MusicList';
-import Track from '../../core/models/Track';
-import axios from '../../plugins/axios';
+import MusicList from "../../core/models/MusicList";
+import Track from "../../core/models/Track";
+import axios from "../../plugins/axios";
 
 @Component({
   components: { Playlist }
@@ -86,7 +86,7 @@ export default class MusicPlayer extends Vue {
   mounted() {
     this.audio = <HTMLMediaElement>this.$refs.audio;
     this.volume = 100;
-    this.$root.$on('click:music', this.onClickMusicPlaylist);
+    this.$root.$on("playTrack", this.onClickMusicPlaylist);
   }
 
   async playPause() {
@@ -148,8 +148,8 @@ export default class MusicPlayer extends Vue {
   }
 
   get currentTrackSrc(): string {
-    if(this.currentTrack){
-      return axios.defaults.url + "/stream/" + this.currentTrack._id;
+    if (this.currentTrack) {
+      return `${axios.defaults.baseURL}/tracks/${this.currentTrack._id}/stream`;
     }
 
     return "";
@@ -158,7 +158,6 @@ export default class MusicPlayer extends Vue {
   @Watch("playlistIndex")
   onPlaylistIndexChange(val: number) {
     this.audio.pause();
-
     if (this.playlist.tracks[val]) {
       this.$nextTick(() => {
         this.audio.play();
@@ -168,17 +167,18 @@ export default class MusicPlayer extends Vue {
 
   @Watch("playlist")
   onPlaylistChange() {
-    this.playlistIndex = 0;
+    // to force play track
+    if (this.playlistIndex === 0) this.onPlaylistIndexChange(0);
+    else this.playlistIndex = 0;
   }
 
-  onClickMusicPlaylist(track: any){
-      let index = this.playlist.tracks.indexOf(track);
-      if(index > -1){
-          if(this.playlistIndex === index)
-            this.onPlaylistIndexChange(index);
-          else
-            this.playlistIndex = index;
-      }
+  onClickMusicPlaylist(track: any) {
+    let index = this.playlist.tracks.findIndex((item) => item._id === track._id);
+    if (index > -1) {
+      // to force play track
+      if (this.playlistIndex === index) this.onPlaylistIndexChange(index);
+      else this.playlistIndex = index;
+    }
   }
 }
 </script>

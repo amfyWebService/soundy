@@ -1,6 +1,6 @@
 <template>
 <div class="app-auth">
-  <router-view></router-view>
+  <router-view style="height: 100%"></router-view>
 </div>
 </template>
 
@@ -12,3 +12,9 @@ export default class AppAuth extends Vue {
 
 }
 </script>
+
+<style scoped>
+  .app-auth {
+    height: 100%;
+  }
+</style>

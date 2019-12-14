@@ -13,7 +13,7 @@ import MusicList from '@/core/models/MusicList';
 //     userStatus?: string;
 // }
 
-export interface AuthState {
+export interface SoundyState {
     user?: User;
     status: boolean;
     token?: string;

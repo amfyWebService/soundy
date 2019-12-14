@@ -17,8 +17,8 @@
             </thead>
             <tbody>
               <tr v-for="track in playlist.tracks" :key="track._id" @click.stop="play(track)" :class="[track === currentTrack ? 'selected':'']">
-                <td>{{ music.name }}</td>
-                <td>{{ music.duration }}</td>
+                <td>{{ track.title }}</td>
+                <td>{{ track.duration || "00:00" }}</td>
               </tr>
             </tbody>
           </template>
@@ -39,8 +39,8 @@ export default class PlayList extends Vue {
   @Prop() playlist: MusicList;
   @Prop() currentTrack?: Track;
 
-  play(music: Object) {
-    this.$root.$emit("click:music", music);
+  play(track: Track) {
+    this.$emit("click:track", track);
   }
 }
 </script>
