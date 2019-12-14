@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: soundy_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    # env_file: mongo.env
+  front:
+    build: .
+    container_name: soundy_front
+    restart: always
+    network_mode: "bridge"
+    environment: 
+      - API_URL=http://gateway:8080
+  gateway:
+    build: ../soundy_rest
+    container_name: soundy_gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    # env_file: gateway.env
+    environment: 
+      - AMQP_URL=amqp://rabbit:5672
+    links: 
+      - rabbit
+    depends_on: 
+      - rabbit
+  service:
+    build: ../soundy_service
+    container_name: soundy_service
+    restart: always
+    links: 
+      - mongo
+      - rabbit
+    depends_on: 
+      - mongo
+      - rabbit
+    ports:
+      - "8181:3000"
+    # env_file: service.env
+    environment: 
+      - AMQP_URL=amqp://rabbit:5672
+      - JWT_KEY=JE_VEUX_DES_PAILLETTES_DANS_MA_VIE_KEVIN
+      - MONGO_SERVER=mongo
+      - MONGO_PORT=27017
+  rabbit:
+    image: rabbitmq:3
+    container_name: soundy_rabbit
+    ports: 
+      - 5672:5672
